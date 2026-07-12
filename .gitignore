@@ -1,0 +1,21 @@
+# target/ — dbt stores all compiled SQL files here — auto generated, no need in GitHub
+target/
+
+# dbt_packages/ — third party dbt packages installed — can be reinstalled anytime
+dbt_packages/
+
+# logs/ — dbt run logs stored here — not needed in GitHub
+logs/
+
+# dbt_env/ — our Python virtual environment — very large folder, no need in GitHub
+dbt_env/
+
+# .env — contains passwords and secret keys — NEVER push to GitHub
+.env
+
+# __pycache__/ and *.pyc — Python auto generated cache files — not needed
+__pycache__/
+*.pyc
+
+# .DS_Store — Mac system file — not needed in GitHub
+.DS_Store

@@ -1,0 +1,26 @@
+# project name — must match profiles.yml
+name: 'sunmobility_project'
+version: '1.0.0'
+config-version: 2
+
+# which profile to use — must match profiles.yml
+profile: 'sunmobility_project'
+
+# folder paths
+model-paths:    ["models"]
+seed-paths:     ["seeds"]
+snapshot-paths: ["snapshots"]
+macro-paths:    ["macros"]
+test-paths:     ["tests"]
+
+# default settings for each layer
+models:
+  sunmobility_project:
+    staging:
+      +materialized: view
+      +schema: DBT_STAGING
+    intermediate:
+      +materialized: ephemeral
+    marts:
+      +materialized: table
+      +schema: DBT_MARTS
