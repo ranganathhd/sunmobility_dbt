@@ -1,0 +1,11 @@
+station_id,station_name,city,state,region,capacity,status,installed_date
+S001,Anna Nagar Station,Chennai,Tamil Nadu,South,10,Active,2022-01-15
+S002,Bandra Station,Mumbai,Maharashtra,West,12,Active,2022-02-20
+S003,Koramangala Station,Bangalore,Karnataka,South,15,Active,2022-03-10
+S004,Connaught Place Station,Delhi,Delhi,North,20,Active,2022-04-05
+S005,Salt Lake Station,Kolkata,West Bengal,East,8,Active,2022-05-18
+S006,Banjara Hills Station,Hyderabad,Telangana,South,10,Active,2022-06-22
+S007,Navrangpura Station,Ahmedabad,Gujarat,West,9,Inactive,2022-07-30
+S008,Aundh Station,Pune,Maharashtra,West,11,Active,2022-08-14
+S009,Gomti Nagar Station,Lucknow,Uttar Pradesh,North,7,Active,2022-09-01
+S010,Alwarpet Station,Chennai,Tamil Nadu,South,13,Active,2022-10-10
