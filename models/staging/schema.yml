@@ -1,0 +1,84 @@
+
+# This tells dbt where your raw tables are in Snowflake so you can use source() in your models instead of hardcoding the full table path.
+version: 2
+
+sources:
+  - name: raw
+    database: SUNMOBILITY_DB
+    schema: RAW_DATA
+    tables:
+      - name: stations
+        description: "Raw station data loaded from S3 via Snowpipe"
+      - name: vehicles
+        description: "Raw vehicle data loaded from S3 via Snowpipe"
+      - name: battery_packs
+        description: "Raw battery pack data loaded from S3 via Snowpipe"
+      - name: swap_records
+        description: "Raw swap records loaded from S3 via Snowpipe"
+
+models:
+  - name: stg_stations
+    description: "Cleans and standardizes raw station data"
+    columns:
+      - name: station_id
+        description: "Unique station identifier"
+        tests:
+          - unique
+          - not_null
+      - name: status
+        description: "Station status — Active or Inactive"
+        tests:
+          - accepted_values:
+              values: ['ACTIVE', 'INACTIVE']
+      - name: region
+        description: "Region where station is located"
+        tests:
+          - accepted_values:
+              values: ['NORTH', 'SOUTH', 'EAST', 'WEST']
+
+  - name: stg_vehicles
+    description: "Cleans and standardizes raw vehicle data"
+    columns:
+      - name: vehicle_id
+        description: "Unique vehicle identifier"
+        tests:
+          - unique
+          - not_null
+      - name: vehicle_type
+        description: "Type of vehicle"
+        tests:
+          - accepted_values:
+              values: ['TWO WHEELER', 'THREE WHEELER']
+
+  - name: stg_battery_packs
+    description: "Cleans and standardizes raw battery pack data"
+    columns:
+      - name: battery_id
+        description: "Unique battery identifier"
+        tests:
+          - unique
+          - not_null
+      - name: status
+        description: "Battery status"
+        tests:
+          - accepted_values:
+              values: ['AVAILABLE', 'IN USE', 'FAULTY']
+
+  - name: stg_swap_records
+    description: "Cleans and standardizes raw swap records"
+    columns:
+      - name: swap_id
+        description: "Unique swap event identifier"
+        tests:
+          - unique
+          - not_null
+      - name: status
+        description: "Swap status"
+        tests:
+          - accepted_values:
+              values: ['SUCCESS', 'FAILED']
+      - name: amount
+        description: "Amount charged for swap"
+        tests:
+          - not_null
+
