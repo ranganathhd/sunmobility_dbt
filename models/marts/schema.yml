@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: dim_stations
+    description: "Dimension table for swap stations"
+    columns:
+      - name: station_id
+        description: "Unique station identifier"
+        tests:
+          - unique
+          - not_null
+      - name: status
+        description: "Station status"
+        tests:
+          - not_null
+
+  - name: dim_vehicles
+    description: "Dimension table for vehicles and owners"
+    columns:
+      - name: vehicle_id
+        description: "Unique vehicle identifier"
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_battery_packs
+    description: "Dimension table for battery packs"
+    columns:
+      - name: battery_id
+        description: "Unique battery identifier"
+        tests:
+          - unique
+          - not_null
+
+  - name: fct_swaps
+    description: "Fact table for all swap events — incremental model"
+    columns:
+      - name: swap_id
+        description: "Unique swap event identifier"
+        tests:
+          - unique
+          - not_null
+      - name: amount
+        description: "Amount charged for swap"
+        tests:
+          - not_null
+      - name: swap_status
+        description: "Swap status — Success or Failed"
+        tests:
+          - accepted_values:
+              values: ['SUCCESS', 'FAILED']
