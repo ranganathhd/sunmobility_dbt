@@ -405,3 +405,31 @@ SHOW MATERIALIZED VIEWS;
 SELECT * FROM mv_swap_summary_by_station
 ORDER BY total_revenue DESC;
 
+
+
+
+USE ROLE ACCOUNTADMIN;
+USE DATABASE SUNMOBILITY_DB;
+USE SCHEMA DBT_DEV_DBT_MARTS;
+
+-- add clustering key to fct_swaps
+-- swap_date and region are most commonly used in WHERE filters
+ALTER TABLE fct_swaps
+    CLUSTER BY (swap_date, region);
+
+-- check clustering information
+SELECT SYSTEM$CLUSTERING_INFORMATION('fct_swaps');
+
+-- run a query and check performance
+SELECT
+    region,
+    swap_year,
+    swap_month,
+    COUNT(swap_id)  AS total_swaps,
+    SUM(amount)     AS total_revenue
+FROM fct_swaps
+WHERE swap_date >= '2024-01-01'
+AND   region    = 'SOUTH'
+GROUP BY region, swap_year, swap_month
+ORDER BY swap_year, swap_month;
+
