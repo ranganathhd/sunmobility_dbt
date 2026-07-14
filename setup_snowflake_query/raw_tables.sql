@@ -373,3 +373,35 @@ SELECT
 FROM SUNMOBILITY_DB.DBT_DEV_DBT_MARTS.dim_vehicles
 LIMIT 5;
 
+
+
+---  metalization view _--------------------------------------
+
+
+USE ROLE ACCOUNTADMIN;
+USE DATABASE SUNMOBILITY_DB;
+USE SCHEMA DBT_DEV_DBT_MARTS;
+
+-- create materialized view for swap summary by station
+-- analysts query this for fast reporting
+-- Snowflake auto refreshes when fct_swaps changes
+CREATE OR REPLACE MATERIALIZED VIEW mv_swap_summary_by_station AS
+SELECT
+    station_id,
+    station_name,
+    region,
+    COUNT(swap_id)      AS total_swaps,
+    SUM(amount)         AS total_revenue,
+    AVG(amount)         AS avg_swap_amount,
+    COUNT(CASE WHEN swap_status = 'SUCCESS' THEN 1 END) AS successful_swaps,
+    COUNT(CASE WHEN swap_status = 'FAILED'  THEN 1 END) AS failed_swaps
+FROM fct_swaps
+GROUP BY station_id, station_name, region;
+
+-- verify materialized view created
+SHOW MATERIALIZED VIEWS;
+
+-- query the materialized view
+SELECT * FROM mv_swap_summary_by_station
+ORDER BY total_revenue DESC;
+
